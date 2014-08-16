@@ -1,8 +1,12 @@
 class Array
-	def injected(number=self.delete_at(0))
-		self.each do |element|
-	        number = yield(number, element)
-	      end
-		number
+	
+	def injected(accumulator = nil, &block)
+		collection = self.dup
+		accumulator ||= collection.shift
+		collection.each do |item|
+			accumulator = block.call(accumulator,item)
+		end
+		accumulator
 	end
+
 end
